@@ -79,6 +79,9 @@ class Package(BaseModel):
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator")    
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier")
     pypi_home_page  = models.URLField(_("homepage on PyPI for a project"), blank=True, null=True)
+    metadata_last_fetched = models.DateTimeField(blank=True, null=True)
+    metadata_fetch_success = models.BooleanField(default=False)
+    metadata_fetch_message = models.CharField(max_length=100, blank=True)
     
     objects = PackageManager()            
     
