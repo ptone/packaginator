@@ -127,6 +127,12 @@ class Package(BaseModel):
         from package.templatetags.package_tags import commits_over_52
         return commits_over_52(self)
     
+    def fail_fetch_metadata(self,message):
+        self.metadata_last_fetched = datetime.now()
+        self.metadata_fetch_success = False
+        self.metadata_fetch_message = message
+        self.save()
+
     def fetch_metadata(self, *args, **kwargs):
         
         # Get the downloads from pypi
@@ -134,7 +140,16 @@ class Package(BaseModel):
             
             total_downloads = 0
             
-            for release in fetch_releases(self.pypi_name):
+            try:
+                pypi_releases = fetch_releases(self.pypi_name)
+            except ProtocolError, e:
+                self.fail_fetch_metadata("Error fetching pypi releases: %s" % e)
+                raise
+            except:
+                self.fail_fetch_metadata("Error fetching pypi releases")
+                raise
+
+            for release in pypi_releases:
             
                 version, created = Version.objects.get_or_create(
                     package = self,
@@ -152,7 +167,15 @@ class Package(BaseModel):
             
             self.pypi_downloads = total_downloads
         
-        self.repo.fetch_metadata(self)
+        try:
+            self.repo.fetch_metadata(self)
+        except:
+            self.fail_fetch_metadata("Unable to fetch repo metadata")
+            raise
+
+        self.metadata_last_fetched = datetime.now()
+        self.metadata_fetch_success = True
+        self.metadata_fetch_message = "success"
         self.save()        
 
     def fetch_commits(self):
