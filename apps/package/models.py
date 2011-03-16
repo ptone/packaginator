@@ -3,25 +3,16 @@
 
 from datetime import datetime
 from distutils.version import LooseVersion as versioner
-from github2.client import Github
-from urllib import urlopen
 from xmlrpclib import ProtocolError
-import logging
-import os
-import re
-import sys
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from package.fields import CreationDateTimeField, ModificationDateTimeField
 from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
-from package.repos import github
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
