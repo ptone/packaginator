@@ -71,8 +71,13 @@ def edit_package(request, slug, template_name="package/package_form.html"):
 def update_package(request, slug):
     
     package = get_object_or_404(Package, slug=slug)
-    package.fetch_metadata()
-    messages.add_message(request, messages.INFO, 'Package updated successfully')
+    try:
+        package.fetch_metadata()
+        messages.add_message(request, messages.INFO, 'Package updated successfully')
+    except Exception, e:
+        # an error in fetching metadata is not a view failure
+        messages.add_message(request, messages.ERROR, 'Package update failed, %s' % e)
+
         
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 
