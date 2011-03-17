@@ -32,7 +32,7 @@
             <thead>
             <tr>
                 <th># Using This</th>
-                <th></th>
+                <th>Data Last Updated</th>
             </tr>
             </thead>
 
@@ -45,8 +45,27 @@
                             {% usage_button %} 
                         {% endwith %}
                     </td>
-                    <td id="fetch-cell"><a class="awesome forestgreen" href="{% url fetch_package_data package.slug %}">Fetch latest data</a></td>
-                </tr>    
+                    <td>
+                        <table border="0px" style="border-style:hidden;">
+                            <tr>
+                                <td>
+                                    {% if package.metadata_last_fetched %}
+                                    {{ package.metadata_last_fetched|date:"M,j Y" }}<br>
+                                    {{ package.metadata_last_fetched|date:"fa" }}
+                                    {% else %}
+                                        Never
+                                    {% endif %}
+                                </td>
+                                <td id="fetch-cell">
+                                    <a class="awesome forestgreen" href="{% url fetch_package_data package.slug %}">Fetch latest data</a>
+                                </td>
+                            </tr>
+                        </table>
+                        {% if not package.metadata_fetch_success %}
+                            <span style="color:red;">{{ package.metadata_fetch_message }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
             </tbody>        
          </table>
 
