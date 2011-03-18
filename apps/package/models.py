@@ -85,8 +85,6 @@ class Package(BaseModel):
     
     objects = PackageManager()            
     
-    objects = PackageManager()            
-    
     @property
     def pypi_version(self):
         string_ver_list = self.version_set.values_list('number', flat=True)
