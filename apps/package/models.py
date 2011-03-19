@@ -1,5 +1,8 @@
 # TODO - cleanup regex to do proper string subs
 
+from datetime import datetime
+from distutils.version import LooseVersion as versioner
+from xmlrpclib import ProtocolError
 import logging
 import os
 import re
@@ -12,7 +15,6 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
-from distutils.version import LooseVersion as versioner
 from github2.client import Github
 
 from package.fields import CreationDateTimeField, ModificationDateTimeField
