@@ -1,6 +1,15 @@
+from datetime import datetime, timedelta
+
 from django.test import TestCase
 
-from package.models import Package, Version, versioner
+try:
+  from mock import Mock, patch
+except ImportError:
+  raise ImportError("Mock is a requirement for la_facebook tests")
+
+from package.models import Package
+
+mock_repo = Mock()
 
 class VersionTests(TestCase):
 
@@ -23,3 +32,29 @@ class VersionTests(TestCase):
                             '2.1.3']
         returned_values = [v.number for v in versions]
         self.assertEquals(returned_values,expected_values)
+
+class PackageMetaDataTests(TestCase):
+
+    """
+    test that last update of package meta data is stored on Package model
+    """
+
+    def setUp(self):
+        self.package = Package(
+                title='Packaginator',
+                repo_url='https://github.com/cartwheelweb/packaginator')
+        self.package.save()
+
+    @patch('package.models.get_repo_for_repo_url', mock_repo)
+    def test_metadata_store(self):
+        self.assertTrue(self.package.metadata_last_fetched == None)
+        self.package.fetch_metadata()
+        self.assertTrue((datetime.now() - self.package.metadata_last_fetched) <
+                timedelta(seconds=10))
+        self.assertTrue(self.package.metadata_fetch_message)
+        self.assertEquals(self.package.metadata_fetch_message, 'success')
+
+
+# @@ TODO: tests that mock pypi API
+# tests that test failure
+
