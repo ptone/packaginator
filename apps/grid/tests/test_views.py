@@ -292,7 +292,7 @@ class GridPackagePermissionTest(TestCase):
         self.test_add_url = reverse('add_grid_package',
                                kwargs={'grid_slug':'testing'})
         self.test_delete_url = reverse('delete_grid_package',
-                               kwargs={'grid_slug':'testing'})
+                               kwargs={'id':'1'})
         self.login = self.client.login(username='user', password='user')
         self.user = User.objects.get(username='user')
 
