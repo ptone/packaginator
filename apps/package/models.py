@@ -142,10 +142,12 @@ class Package(BaseModel):
             try:
                 pypi_releases = fetch_releases(self.pypi_name)
             except ProtocolError, e:
-                self.fail_fetch_metadata("Error fetching pypi releases: %s" % e)
+                self.fail_fetch_metadata(
+                        "ProtocolError fetching pypi releases: %s" % e)
                 raise
-            except:
-                self.fail_fetch_metadata("Error fetching pypi releases")
+            except Exception, e:
+                self.fail_fetch_metadata(
+                        "Error fetching pypi releases: %s" % e)
                 raise
 
             for release in pypi_releases:
