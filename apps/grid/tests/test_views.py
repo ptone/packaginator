@@ -301,7 +301,7 @@ class GridPermissionTest(TestCase):
     
     def test_add_grid_permission_fail(self):
         response = self.client.get(self.test_add_url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 403)
 
     def test_add_grid_permission_success(self):
         add_grid_perm = Permission.objects.get(codename='add_grid')
@@ -311,7 +311,7 @@ class GridPermissionTest(TestCase):
 
     def test_edit_grid_permission_fail(self):
         response = self.client.get(self.test_add_url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 403)
 
     def test_edit_grid_permission_success(self):
         edit_grid_perm = Permission.objects.get(codename='change_grid')
