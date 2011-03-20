@@ -311,7 +311,7 @@ class GridPackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_add_grid_package_permission_success(self):
-        add_grid_perm = Permissions.objects.get(codename='add_gridpackage')
+        add_grid_perm = Permission.objects.get(codename='add_gridpackage')
         self.user.user_permissions.add(add_grid_perm)
         response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
@@ -321,7 +321,7 @@ class GridPackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_add_new_grid_package_permission_success(self):
-        add_new_grid_perm = Permissions.objects.get(codename='add_gridpackage')
+        add_new_grid_perm = Permission.objects.get(codename='add_gridpackage')
         self.user.user_permissions.add(add_grid_perm)
         response = self.client.get(self.test_add_new_url)
         self.assertEqual(response.status_code, 200)
