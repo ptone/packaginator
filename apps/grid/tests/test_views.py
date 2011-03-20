@@ -298,6 +298,7 @@ class GridPackagePermissionTest(TestCase):
 
     def test_login(self):
         self.assertTrue(self.login)
+        print self.user.get_all_permissions()
 
     def test_add_grid_package_permission_fail(self):
         response = self.client.get(self.test_add_url)
