@@ -364,7 +364,7 @@ class GridFeaturePermissionTest(TestCase):
         self.assertTrue(self.client.login(username='user', password='user'))
         settings.RESTRICT_GRID_EDITORS = True
         user = User.objects.get(username='user')
-        add_feature = Permission.objects.get(codename='edit_feature')
+        edit_feature = Permission.objects.get(codename='edit_feature')
         user.user_permissions.add(edit_feature)
         response = self.client.get(test_edit_url)
         self.assertEqual(response.status_code, 200)
@@ -381,8 +381,34 @@ class GridFeaturePermissionTest(TestCase):
         self.assertTrue(self.client.login(username='user', password='user'))
         settings.RESTRICT_GRID_EDITORS = True
         user = User.objects.get(username='user')
-        add_feature = Permission.objects.get(codename='delete_feature')
+        delete_feature = Permission.objects.get(codename='delete_feature')
         user.user_permissions.add(delete_feature)
         response = self.client.get(test_delete_url)
         self.assertEqual(response.status_code, 200)
         settings.RESTRICT_GRID_EDITORS = False
+
+class GridElementPermissionTest(TestCase):
+    fixtures = ['test_initial_data.json']
+
+    def setUp(self):
+        settings.RESTRICT_GRID_EDITORS = False
+        test_edit_url = reverse('edit_element',  kwargs={'feature_id':'1',
+                                                         'package_id':'1'})
+
+    def test_edit_element_permission_success(self):
+        self.assertTrue(self.client.login(username='user', password='user'))
+        settings.RESTRICT_GRID_EDITORS = True
+        response = self.client.get(test_edit_url)
+        self.assertEqual(response.status_code, 403)
+        settings.RESTRICT_GRID_EDITORS = False
+
+    def test_edit_element_permission_success(self):
+        self.assertTrue(self.client.login(username='user', password='user'))
+        settings.RESTRICT_GRID_EDITORS = True
+        user = User.objects.get(username='user')
+        edit_element = Permission.objects.get(codename='edit_element')
+        user.user_permissions.add(edit_element)
+        response = self.client.get(test_edit_url)
+        self.assertEqual(response.status_code, 200)
+        settings.RESTRICT_GRID_EDITORS = False
+
