@@ -78,18 +78,6 @@ class FunctionalPackageTest(TestCase):
         self.assertEqual(response.status_code, 403)
         settings.RESTRICT_PACKAGE_EDITORS = False
 
-    def test_add_package_permission_success(self):
-        url = reverse('add_package')
-        self.assertTrue(self.client.login(username='user', password='user'))
-        settings.RESTRICT_PACKAGE_EDITORS = True
-        user = User.objects.get(username='user')
-        add_package_perm = Permission.objects.get(codename="add_package")
-        user.user_permissions.add(add_package_perm)
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        settings.RESTRICT_PACKAGE_EDITORS = False
-
-
     def test_edit_package_view(self):
         p = Package.objects.get(slug='testability')
         url = reverse('edit_package', kwargs={'slug': 'testability'})
@@ -189,3 +177,48 @@ class FunctionalPackageTest(TestCase):
 
 class RegressionPackageTest(TestCase):
     pass
+
+class PackagePermissionTest(TestCase):
+    fixtures = ['test_initial_data.json']
+
+    def setUp(self):
+        settings.RESTRICT_PACKAGE_EDITORS = False
+        settings.RESTRICT_GRID_EDITORS = True
+
+    def test_add_package_permission_fail(self):
+        url = reverse('add_package')
+        self.assertTrue(self.client.login(username='user', password='user'))
+        settings.RESTRICT_PACKAGE_EDITORS = True
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        settings.RESTRICT_PACKAGE_EDITORS = False
+
+    def test_add_package_permission_success(self):
+        url = reverse('add_package')
+        self.assertTrue(self.client.login(username='user', password='user'))
+        settings.RESTRICT_PACKAGE_EDITORS = True
+        user = User.objects.get(username='user')
+        add_package_perm = Permission.objects.get(codename="add_package")
+        user.user_permissions.add(add_package_perm)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        settings.RESTRICT_PACKAGE_EDITORS = False
+
+    def test_edit_package_permission_fail(self):
+        url = reverse('edit_package', kwargs={'slug': 'testability'})
+        self.assertTrue(self.client.login(username='user', password='user'))
+        settings.RESTRICT_PACKAGE_EDITORS = True
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        settings.RESTRICT_PACKAGE_EDITORS = False
+
+    def test_edit_package_permission_success(self):
+        url = reverse('edit_package', kwargs={'slug': 'testability'})
+        self.assertTrue(self.client.login(username='user', password='user'))
+        settings.RESTRICT_PACKAGE_EDITORS = True
+        user = User.objects.get(username='user')
+        edit_package_perm = Permission.objects.get(codename="edit_package")
+        user.user_permissions.add(edit_package_perm)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        settings.RESTRICT_PACKAGE_EDITORS = False
