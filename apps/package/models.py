@@ -170,8 +170,9 @@ class Package(BaseModel):
         
         try:
             self.repo.fetch_metadata(self)
-        except:
-            self.fail_fetch_metadata("Unable to fetch repo metadata")
+        except Exception, e:
+            self.fail_fetch_metadata(
+                    "Unable to fetch repo metadata: %s" % e)
             raise
 
         self.metadata_last_fetched = datetime.now()
