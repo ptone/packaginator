@@ -68,32 +68,54 @@ like more control over this, there are two settings that can be used.
     RESTRICT_PACKAGE_EDITORS
     RESTRICT_GRID_EDITORS
 
-If these are set, the assumption is that you do not want to restrict editing.
+If these are not set, the assumption is that you do not want to restrict
+editing.
 
 If set to True, a user must have permission to add or edit the given object.
-These permissions are set in the Django admin, and can be applied per user, or
-per group.
+These permissions are set in the Django admin, and can be applied per user, or per group.
 
-TODO: make RST:
+Settings that are on by default
+-------------------------------
 
-can add or edit a package
-package | package | Can add package
-package | package | Can change package
+By default registered users can do the following:
 
-add or remove a package on grid
-grid | Package | Can add Package
-grid | Package | Can change Package
+**Packages**
 
-add or remove a feature from a grid:
-grid | feature | Can add feature
-grid | feature | Can change feature
-grid | feature | Can delete feature
+* Can add package
+* Can change package
 
-add or modify a cell whithin the grid
-grid | element | Can add element
-grid | element | Can change element
-grid | element | Can delete element
+**Grids**
 
+* Can add Package
+* Can change Package
+* Can add feature
+* Can change feature
+* Can change element
+
+In the default condition, only super users or those with permission can delete.
+
+Testing permissions in templates
+--------------------------------
+
+A context processor will add the user profile to every template context, the
+profile model also handles checking for permissions::
+
+    {% if profile.can_edit_package %}
+        <edit package UI here>
+    {% endif %}
+
+The follow properties can be used in templates:
+
+* can_add_package
+* can_edit_package
+* can_edit_grid
+* can_add_grid
+* can_add_grid_feature
+* can_edit_grid_feature
+* can_delete_grid_feature
+* can_add_grid_package
+* can_delete_grid_package
+* can_edit_grid_element
 
 .. _troubleshooting: troubleshooting.html    
 
