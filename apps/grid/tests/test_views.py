@@ -311,9 +311,9 @@ class GridFeaturePermissionTest(TestCase):
 
     def setUp(self):
         settings.RESTRICT_GRID_EDITORS = False
-        test_add_url = reverse('add_feature' kwargs={'grid_slug':'testing'})
-        test_edit_url = reverse('edit_feature' kwargs={'id':'1'})
-        test_delete_url = reverse('delete_feature' kwargs={'id':'1'})
+        test_add_url = reverse('add_feature',  kwargs={'grid_slug':'testing'})
+        test_edit_url = reverse('edit_feature',  kwargs={'id':'1'})
+        test_delete_url = reverse('delete_feature',  kwargs={'id':'1'})
 
     def test_add_feature_permission_fail(self):
         self.assertTrue(self.client.login(username='user', password='user'))
