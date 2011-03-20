@@ -289,6 +289,24 @@ class RegressionGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/edit_element.html')
 
+class GridPermissionTest(TestCase):
+    fixtures = ['test_initial_data.json']
+
+    def setUp(self):
+        settings.RESTRICT_GRID_EDITORS = True
+        self.test_add_url = reverse('add_grid')
+        self.test_edit_url = reverse('edit_grid', kwargs={'slug':'testing'})
+    
+    def test_add_grid_permission_fail(self):
+        response = self.client.get(self.test_add_url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_add_grid_permission_success(self):
+        add_grid_perm = Permissions.objects.get(codename='add_grid')
+        self.user.user_permissions.add(add_grid_perm)
+        response = self.client.get(self.test_add_url)
+        self.assertEqual(response.status_code, 200)
+
 class GridPackagePermissionTest(TestCase):
     fixtures = ['test_initial_data.json']
 
