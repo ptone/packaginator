@@ -174,7 +174,7 @@ class PackagePermissionTest(TestCase):
     fixtures = ['test_initial_data.json']
 
     def setUp(self):
-        settings.RESTRICT_PACKAGE_EDITORS = False
+        settings.RESTRICT_PACKAGE_EDITORS = True
         self.test_add_url = reverse('add_package')
         self.test_edit_url = reverse('edit_package',
                                      kwargs={'slug':'testability'})
@@ -184,30 +184,30 @@ class PackagePermissionTest(TestCase):
     def test_login(self):
         self.assertTrue(self.login)
 
-    def test_add_package_permission_fail(self):
+    def test_switch_permissions(self):
+        settings.RESTRICT_PACKAGE_EDITORS = False
+        response = self.client.get(self.test_add_url)
+        self.assertEqual(response.status_code, 200)
         settings.RESTRICT_PACKAGE_EDITORS = True
         response = self.client.get(self.test_add_url)
+        self.assertEqual(response.status_code, 403) 
+
+    def test_add_package_permission_fail(self):
+        response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 403)
-        settings.RESTRICT_PACKAGE_EDITORS = False
 
     def test_add_package_permission_success(self):
-        settings.RESTRICT_PACKAGE_EDITORS = True
         add_package_perm = Permission.objects.get(codename="add_package")
         self.user.user_permissions.add(add_package_perm)
         response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
-        settings.RESTRICT_PACKAGE_EDITORS = False
 
     def test_edit_package_permission_fail(self):
-        settings.RESTRICT_PACKAGE_EDITORS = True
         response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 403)
-        settings.RESTRICT_PACKAGE_EDITORS = False
 
     def test_edit_package_permission_success(self):
-        settings.RESTRICT_PACKAGE_EDITORS = True
         edit_package_perm = Permission.objects.get(codename="change_package")
         self.user.user_permissions.add(edit_package_perm)
         response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
-        settings.RESTRICT_PACKAGE_EDITORS = False
