@@ -104,12 +104,6 @@ class Profile(ProfileBase):
 
     # Grid Element (cells in grid)
     @property
-    def can_add_grid_element(self):
-        if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
-            return self.user.has_perm('grid.add_element')
-        return True
-
-    @property
     def can_edit_grid_element(self):
         if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
             return self.user.has_perm('grid.change_element')
