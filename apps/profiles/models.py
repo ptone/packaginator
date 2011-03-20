@@ -61,7 +61,7 @@ class Profile(ProfileBase):
     @property
     def can_edit_grid(self):
         if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
-            return self.user.has_perm('grid.edit_grid')
+            return self.user.has_perm('grid.change_grid')
         return True
 
     @property
@@ -74,50 +74,44 @@ class Profile(ProfileBase):
     @property
     def can_add_grid_feature(self):
         if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
-            return self.user.has_perm('grid.add_grid_feature')
+            return self.user.has_perm('grid.add_feature')
         return True
 
     @property
     def can_edit_grid_feature(self):
         if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
-            return self.user.has_perm('grid.edit_grid_feature')
+            return self.user.has_perm('grid.change_feature')
         return True
 
     @property
     def can_delete_grid_feature(self):
         if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
-            return self.user.has_perm('grid.delete_grid_feature')
+            return self.user.has_perm('grid.delete_feature')
         return True
 
     # Grid Packages
     @property
     def can_add_grid_package(self):
         if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
-            return self.user.has_perm('grid.add_grid_package')
-        return True
-
-    @property
-    def can_edit_grid_package(self):
-        if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
-            return self.user.has_perm('grid.edit_grid_package')
+            return self.user.has_perm('grid.add_gridpackage')
         return True
 
     @property
     def can_delete_grid_package(self):
         if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
-            return self.user.has_perm('grid.delete_grid_package')
+            return self.user.has_perm('grid.delete_gridpackage')
         return True
 
     # Grid Element (cells in grid)
     @property
     def can_add_grid_element(self):
         if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
-            return self.user.has_perm('grid.add_grid_element')
+            return self.user.has_perm('grid.add_element')
         return True
 
     @property
     def can_edit_grid_element(self):
         if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
-            return self.user.has_perm('grid.edit_grid_element')
+            return self.user.has_perm('grid.change_element')
         return True
 
