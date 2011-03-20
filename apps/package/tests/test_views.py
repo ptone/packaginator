@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
@@ -8,6 +8,10 @@ from package.models import Category, Package, PackageExample
 
 class FunctionalPackageTest(TestCase):
     fixtures = ['test_initial_data.json']
+
+    def setUp(self):
+        settings.RESTRICT_PACKAGE_EDITORS = False
+        settings.RESTRICT_GRID_EDITORS = True
 
     def test_package_list_view(self):
         url = reverse('packages')
@@ -65,6 +69,26 @@ class FunctionalPackageTest(TestCase):
         })
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Package.objects.count(), count + 1)
+
+    def test_add_package_permission_fail(self):
+        url = reverse('add_package')
+        self.assertTrue(self.client.login(username='user', password='user'))
+        settings.RESTRICT_PACKAGE_EDITORS = True
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        settings.RESTRICT_PACKAGE_EDITORS = False
+
+    def test_add_package_permission_success(self):
+        url = reverse('add_package')
+        self.assertTrue(self.client.login(username='user', password='user'))
+        settings.RESTRICT_PACKAGE_EDITORS = True
+        user = User.objects.get(username='user')
+        add_package_perm = Permission.objects.get(codename="add_package")
+        user.user_permissions.add(add_package_perm)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        settings.RESTRICT_PACKAGE_EDITORS = False
+
 
     def test_edit_package_view(self):
         p = Package.objects.get(slug='testability')

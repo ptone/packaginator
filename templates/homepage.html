@@ -87,18 +87,22 @@
 
         <div id="home-borderlessbox">
             <h2>We need your help</h2>
+            {% if request.user.is_authenticated and profile.can_add_package %}
             <p>
                 Know of any packages not listed here?  Add them now!  It's quick and easy.
             </p>
             <p>
                 <a class="large awesome forestgreen" href="{% url add_package %}">add package »</a>
             </p>
+            {% endif %}
+            {% if request.user.is_authenticated and profile.can_add_grid %}
             <p>
                 Or add a grid comparing the features of 2 or more similar packages.
             </p>
             <p>
                 <a class="large awesome forestgreen" href="{% url add_grid %}">add grid »</a>
             </p>
+            {% endif %}
         </div>
 
         <div id="home-borderlessbox">
