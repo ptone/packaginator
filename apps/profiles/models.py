@@ -52,7 +52,8 @@ class Profile(ProfileBase):
     @property
     def can_edit_package(self):
         if getattr(settings, 'RESTRICT_PACKAGE_EDITORS', False):
-            return self.user.has_perm('package.edit_package')
+            # this is inconsistent, fix later?
+            return self.user.has_perm('package.change_package')
         # anyone can edit
         return True
 
