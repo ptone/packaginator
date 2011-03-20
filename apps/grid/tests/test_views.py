@@ -322,7 +322,7 @@ class GridPackagePermissionTest(TestCase):
 
     def test_add_new_grid_package_permission_success(self):
         add_new_grid_perm = Permission.objects.get(codename='add_gridpackage')
-        self.user.user_permissions.add(add_grid_perm)
+        self.user.user_permissions.add(add_new_grid_perm)
         response = self.client.get(self.test_add_new_url)
         self.assertEqual(response.status_code, 200)
 
