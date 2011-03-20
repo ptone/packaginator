@@ -307,6 +307,17 @@ class GridPermissionTest(TestCase):
         response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
 
+    def test_edit_grid_permission_fail(self):
+        response = self.client.get(self.test_add_url)
+        self.assertEqual(response.status_code, 302)
+
+    def test_edit_grid_permission_success(self):
+        edit_grid_perm = Permission.objects.get(codename='change_grid')
+        self.user.user_permissions.add(edit_grid_perm)
+        response = self.client.get(self.test_edit_url)
+        self.assertEqual(response.status_code, 200)
+
+
 class GridPackagePermissionTest(TestCase):
     fixtures = ['test_initial_data.json']
 
