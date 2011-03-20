@@ -67,12 +67,16 @@ Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pina
     ln -s ../../env-pythonpackages/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
     cd ..
 
-Setup local settings
-========================
+Setup settings
+==============
 
 Copy the local_settings.py.example to ```local_settings.py```::
 
     cp local_settings.py.example local_settings.py
+
+Copy the settings.py.example to ```settings.py```::
+
+    cp settings.py.example settings.py
 
 Change the ``ROOT_URLS`` setting in ``local_settings.py`` from `<root_directory_name>` to the correct value (i.e. the name of your repo)::
 
