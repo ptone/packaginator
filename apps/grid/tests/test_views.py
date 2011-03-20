@@ -296,6 +296,8 @@ class GridPermissionTest(TestCase):
         settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse('add_grid')
         self.test_edit_url = reverse('edit_grid', kwargs={'slug':'testing'})
+        self.login = self.client.login(username='user', password='user')
+        self.user = User.objects.get(username='user')
     
     def test_add_grid_permission_fail(self):
         response = self.client.get(self.test_add_url)
