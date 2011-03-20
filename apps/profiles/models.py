@@ -102,6 +102,12 @@ class Profile(ProfileBase):
             return self.user.has_perm('grid.edit_package')
         return True
 
+    @property
+    def can_delete_grid_package(self):
+        if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
+            return self.user.has_perm('grid.delete_package')
+        return True
+
     # Grid Element (cells in grid)
     @property
     def can_add_grid_element(self):
