@@ -5,7 +5,17 @@ from django.test import TestCase
 
 from package.repos.bitbucket import repo_handler as bitbucket_handler
 from package.repos.github import repo_handler as github_handler
-from package.repos.launchpad import repo_handler as launchpad_handler
+
+if settings.LAUNCHPAD_ACTIVE:
+    # bzrlib is a very hard to find package
+    # http://packages.ubuntu.com/natty/python-bzrlib
+    try:
+        from package.repos.launchpad import repo_handler as launchpad_handler
+        found_bzrlib = True
+    except ImportError:
+        found_bzrlib = False
+        raise ImportError("Unable to import bzrlib - not able to run Bazaar" +\
+            "repo tests, disable LAUNCHPAD_ACTIVE setting")
 #from package.repos.sourceforge import repo_handler as sourceforge_handler
 from package.models import Commit, Package, Category
 
