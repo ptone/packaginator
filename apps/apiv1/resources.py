@@ -161,7 +161,8 @@ class PackageResource(PackageResourceBase):
     grids       = fields.ToManyField(GridResource, "grid_set")
     created_by  = fields.ForeignKey(UserResource, "created_by", null=True)
     last_modified_by  = fields.ForeignKey(UserResource, "created_by", null=True)
-    pypi_version = fields.CharField('pypi_version')
+    # TODO does pulling this out warrant a version bump in the API, or do we patch in djangopackages?
+    # pypi_version = fields.CharField('pypi_version')
     commits_over_52 = fields.CharField('commits_over_52')
 
     class Meta:
