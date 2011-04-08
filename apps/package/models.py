@@ -61,8 +61,10 @@ class Package(BaseModel):
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
     repo_commits    = models.IntegerField(_("repo commits"), default=0)
-    pypi_url        = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='')
-    pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
+    # TODO these need to be dropped manually after porting over the data
+    # not using migrations or to avoide possible data loss
+    # pypi_url        = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='')
+    # pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
     related_packages    = models.ManyToManyField("self", blank=True)
     participants    = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
