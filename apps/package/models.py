@@ -74,27 +74,6 @@ class Package(BaseModel):
     # pypi_home_page  = models.URLField(_("homepage on PyPI for a project"), blank=True, null=True)
     
     @property
-    def pypi_version(self):
-        string_ver_list = self.version_set.values_list('number', flat=True)
-        if string_ver_list:
-            vers_list = [versioner(v) for v in string_ver_list]
-            latest = sorted(vers_list)[-1]
-            return str(latest)
-        return ''
-
-    @property     
-    def pypi_name(self):
-        """ return the pypi name of a package"""
-        
-        if not self.pypi_url.strip():
-            return ""
-            
-        name = self.pypi_url.replace("http://pypi.python.org/pypi/","")
-        if "/" in name:
-            return name[:name.index("/")]
-        return name
-
-    @property
     def last_updated(self):
         try:
             last_commit = self.commit_set.latest('commit_date')
