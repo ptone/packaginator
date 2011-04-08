@@ -71,7 +71,7 @@ class Package(BaseModel):
     usage           = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator")    
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier")
-    pypi_home_page  = models.URLField(_("homepage on PyPI for a project"), blank=True, null=True)
+    # pypi_home_page  = models.URLField(_("homepage on PyPI for a project"), blank=True, null=True)
     
     @property
     def pypi_version(self):
