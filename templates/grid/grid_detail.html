@@ -129,7 +129,7 @@
                 <tr class="even">
                     <td>{% trans "Version" %}</td>
                     {% for grid_package in grid_packages %}
-                        <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
+                        <td>{{ grid_package.package.latest_version|default:"n/a" }}</td>
                     {% endfor %}
             
                 </tr>
