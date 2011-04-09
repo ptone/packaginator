@@ -18,7 +18,6 @@ def homepage(request, template_name="homepage.html"):
             "count": category.package_count,
             "slug": category.slug,
             "title_plural": category.title_plural,
-            "show_pypi": category.show_pypi,
         }
         categories.append(element)
 

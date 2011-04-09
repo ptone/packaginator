@@ -39,7 +39,8 @@ class Category(BaseModel):
     slug  = models.SlugField(_("slug"))
     description = models.TextField(_("description"), blank=True)
     title_plural = models.CharField(_("Title Plural"), max_length="50", blank=True) 
-    show_pypi = models.BooleanField(_("Show pypi stats & version"), default=True)
+    # TODO these need to be dropped manually after porting over the data
+    # show_pypi = models.BooleanField(_("Show pypi stats & version"), default=True)
     
     class Meta:
         ordering = ['title']
@@ -95,6 +96,11 @@ class Package(BaseModel):
     @property
     def latest_version(self):
         return self.get_latest_version()
+
+    @property
+    def downloads(self):
+        # TODO: we need a better general way of determining downloads from versions
+        return "unknown"
 
     def active_examples(self):
         return self.packageexample_set.filter(active=True)

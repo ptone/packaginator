@@ -242,7 +242,6 @@ def package_list(request, template_name="package/package_list.html"):
             "count": category.package_count,
             "slug": category.slug,
             "title_plural": category.title_plural,
-            "show_pypi": category.show_pypi,
             "packages": category.package_set.annotate(usage_count=Count("usage")).order_by("-pypi_downloads", "-repo_watchers", "title")[:9]
         }
         categories.append(element)
