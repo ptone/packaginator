@@ -18,15 +18,12 @@ from distutils.version import LooseVersion as versioner
 
 from package.fields import CreationDateTimeField, ModificationDateTimeField
 from package.repos import github
-from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
 category_help_text = settings.PACKAGINATOR_HELP_TEXT['CATEGORY']
 
-class NoPyPiVersionFound(Exception):
-    pass
 
 class BaseModel(models.Model):
     """ Base abstract base class to give creation and modified times """
@@ -129,30 +126,6 @@ class Package(BaseModel):
         return ','.join(map(str,reversed(weeks)))
     
     def fetch_metadata(self, *args, **kwargs):
-        
-        # Get the downloads from pypi
-        if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
-            
-            total_downloads = 0
-            
-            for release in fetch_releases(self.pypi_name):
-            
-                version, created = Version.objects.get_or_create(
-                    package = self,
-                    number = release.version
-                )
-
-                # add to total downloads
-                total_downloads += release.downloads
-
-                # add to versions
-                version.downloads = release.downloads
-                version.license = release.license
-                version.hidden = release._pypi_hidden                
-                version.save()
-            
-            self.pypi_downloads = total_downloads
-        
         self.repo.fetch_metadata(self)
         signal_fetch_latest_metadata.send(sender=self)
         self.save()        
