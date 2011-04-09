@@ -89,6 +89,16 @@ class Package(BaseModel):
         handler = get_repo_for_repo_url(self.repo_url)
         return handler
 
+    def get_latest_version(self):
+        try:
+            return self.versions.by_version()[-1].number
+        except IndexError:
+            return 'n/a'
+
+    @property
+    def latest_version(self):
+        return self.get_latest_version()
+
     def active_examples(self):
         return self.packageexample_set.filter(active=True)
     
@@ -193,7 +203,8 @@ class VersionManager(models.Manager):
 
 class Version(BaseModel):
     
-    package = models.ForeignKey(Package, blank=True, null=True)
+    package = models.ForeignKey(Package, blank=True, null=True,
+            related_name="versions")
     number = models.CharField(_("Version"), max_length="100", default="", blank="")
     downloads = models.IntegerField(_("downloads"), default=0)
     license = models.CharField(_("license"), max_length="100")
