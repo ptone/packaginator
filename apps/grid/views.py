@@ -60,9 +60,14 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html",
 
     element_map = build_element_map(elements)
 
-    default_attributes = [('repo_description', 'Description'), 
-                ('Category',), ('last_updated', 'Last Updated'),
-                ('repo', 'Repo'), ('commits_over_52', 'Commits'), ('repo_watchers', 'Repo watchers'), ('repo_forks', 'Forks'),
+    default_attributes = [
+                ('repo_description', 'Description'),
+                ('category','Category'),
+                ('last_updated', 'Last Updated'),
+                ('repo', 'Repo'),
+                ('commits_over_52', 'Commits'),
+                ('repo_watchers', 'Repo watchers'),
+                ('repo_forks', 'Forks'),
                 ('participant_list', 'Participants')
             ]
     default_attributes.extend(additional_attributes)
