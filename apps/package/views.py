@@ -138,9 +138,11 @@ def package_autocomplete(request):
     setattr(response, "djangologging.suppress_output", True)
     return response
 
-def category(request, slug, template_name="package/category.html"):
+def category(request, slug, template_name="package/category.html",
+        order_by=("-repo_watchers", "title")):
     category = get_object_or_404(Category, slug=slug)
-    packages = category.package_set.annotate(usage_count=Count("usage")).order_by("-pypi_downloads", "-repo_watchers", "title")
+    packages = category.package_set.annotate(usage_count=Count("usage")
+            ).order_by(*order_by)
     return render_to_response(template_name, {
         "category": category,
         "packages": packages,
@@ -232,7 +234,8 @@ def packaginate(request):
         )
     return HttpResponse(simplejson.dumps(response))    
 
-def package_list(request, template_name="package/package_list.html"):
+def package_list(request, template_name="package/package_list.html",
+        order_by=("-repo_watchers", "title")):
 
     categories = []
     for category in Category.objects.annotate(package_count=Count("package")):
@@ -242,7 +245,8 @@ def package_list(request, template_name="package/package_list.html"):
             "count": category.package_count,
             "slug": category.slug,
             "title_plural": category.title_plural,
-            "packages": category.package_set.annotate(usage_count=Count("usage")).order_by("-pypi_downloads", "-repo_watchers", "title")[:9]
+            "packages": category.package_set.annotate(usage_count=Count("usage")
+                ).order_by(*order_by)[:9]
         }
         categories.append(element)
 
