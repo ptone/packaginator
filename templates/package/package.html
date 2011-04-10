@@ -50,29 +50,6 @@
             </tbody>        
          </table>
 
-        {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
-            <h2>PyPI {% if package.pypi_downloads %}{% blocktrans with package.pypi_downloads as pypi_downloads %}( {{ pypi_downloads }} downloads ){% endblocktrans %}{% endif %}</h2>
-            <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
-            <table>
-                <tr>
-                    <th>{% trans "Version" %}</th>
-                    <th>{% trans "License" %}</th>                
-                    <th><img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" alt="Downloads" /></th>
-                </tr>
-                {% for version in package.version_set.by_version %}
-                    {% if not version.hidden %}
-                    <tr>
-                        <td>{{ version.number }}</td>
-                        <td>{{ version.license|default:"none" }}</td>                    
-                        <td>{{ version.downloads|default:"n/a" }}</td>
-                    </tr>
-                    {% endif %}
-                {% endfor %}
-            </table>
-        {% else %}
-            <h2>{% trans "No PyPI release" %}</h2>
-        {% endif %}
-
         <h2>{% trans "Participants" %}</h2>
 
         <p>
