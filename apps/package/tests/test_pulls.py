@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from package.pypi import fetch_releases
 from package.models import Package
 from package.repos.launchpad import LaunchpadHandler
 
@@ -15,7 +14,6 @@ class GenericPullTests(TestCase):
             title="Django Piston",
             slug="django-piston",
             repo_url="https://bitbucket.org/jespern/django-piston",
-            pypi_url="django-piston"
         )
         package.save()        
         
@@ -23,7 +21,6 @@ class GenericPullTests(TestCase):
             title="Django",
             slug="django",
             repo_url="https://github.com/django/django",
-            pypi_url="Django"
         )        
         package.save()
         
@@ -32,7 +29,6 @@ class GenericPullTests(TestCase):
                 title="Django-PreFlight",
                 slug="django-preflight",
                 repo_url="https://code.launchpad.net/~canonical-isd-hackers/django-preflight/trunk",
-                pypi_url="django-preflight"            
             )
             package.save()
                 
@@ -51,21 +47,6 @@ class GenericPullTests(TestCase):
         for package in self.packages:
             self.assertTrue(package.repo)
             
-    def test_package_pypi_fetch(self):
-
-        for package in self.packages:
-
-            # fetch package releases from pypi
-            releases = fetch_releases(package.pypi_name)
-            
-            # make sure that package number is bigger than 0
-            self.assertTrue(len(releases) > 0)
-                        
-
-            for release in releases:
-
-                self.assertTrue(isinstance(release.downloads, int))
-                self.assertTrue(isinstance(release._pypi_hidden, bool))            
 
     def test_repo_handler_fetch(self):
 
