@@ -8,6 +8,9 @@ admin.autodiscover()
 
 from pinax.apps.account.openid_consumer import PinaxConsumer
 
+from pypackage.urls import overridden_urlpatterns
+
+
 from homepage.views import homepage
 from package.views import package_autocomplete, category, packaginate
 
@@ -77,3 +80,5 @@ if settings.SERVE_MEDIA:
     urlpatterns += patterns("",
         url(r"", include("staticfiles.urls")),
     )
+
+urlpatterns = overridden_urlpatterns + urlpatterns
