@@ -90,6 +90,7 @@ class GridResource(EnhancedModelResource):
             url(
                 r"^%s/(?P<grid_name>[-\w]+)/packages/$" % GridResource._meta.resource_name,
                 self.get_packages,
+                name='api_grid_packages',
             ),
         ] 
 
@@ -164,6 +165,7 @@ class PackageResource(PackageResourceBase):
     # TODO does pulling this out warrant a version bump in the API, or do we patch in djangopackages?
     # pypi_version = fields.CharField('pypi_version')
     commits_over_52 = fields.CharField('commits_over_52')
+    usage_count = fields.CharField('get_usage_count')
 
     class Meta:
         queryset = Package.objects.all()

@@ -116,6 +116,9 @@ class Package(BaseModel):
         
         return self.participants.split(',')
     
+    def get_usage_count(self):
+        return self.usage.count()
+    
     def commits_over_52(self):
         now = datetime.now()
         commits = Commit.objects.filter(
