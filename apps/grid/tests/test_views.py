@@ -305,7 +305,8 @@ class GridPermissionTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_add_grid_permission_success(self):
-        add_grid_perm = Permission.objects.get(codename='add_grid')
+        add_grid_perm = Permission.objects.get(codename='add_grid',
+            content_type__app_label='grid')
         self.user.user_permissions.add(add_grid_perm)
         response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
@@ -315,7 +316,8 @@ class GridPermissionTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_edit_grid_permission_success(self):
-        edit_grid_perm = Permission.objects.get(codename='change_grid')
+        edit_grid_perm = Permission.objects.get(codename='change_grid',
+                content_type__app_label='grid')
         self.user.user_permissions.add(edit_grid_perm)
         response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
@@ -343,7 +345,8 @@ class GridPackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_add_grid_package_permission_success(self):
-        add_grid_perm = Permission.objects.get(codename='add_gridpackage')
+        add_grid_perm = Permission.objects.get(codename='add_gridpackage',
+                content_type__app_label='grid')
         self.user.user_permissions.add(add_grid_perm)
         response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
@@ -353,7 +356,8 @@ class GridPackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_add_new_grid_package_permission_success(self):
-        add_new_grid_perm = Permission.objects.get(codename='add_gridpackage')
+        add_new_grid_perm = Permission.objects.get(codename='add_gridpackage',
+                content_type__app_label='grid')
         self.user.user_permissions.add(add_new_grid_perm)
         response = self.client.get(self.test_add_new_url)
         self.assertEqual(response.status_code, 200)
@@ -363,8 +367,8 @@ class GridPackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_delete_grid_package_permission_success(self):
-        delete_grid_perm = Permission.objects.get(codename=
-                                                  'delete_gridpackage')
+        delete_grid_perm = Permission.objects.get(codename='delete_gridpackage',
+                content_type__app_label='grid')
         self.user.user_permissions.add(delete_grid_perm)
         response = self.client.get(self.test_delete_url)
         self.assertEqual(response.status_code, 302)
@@ -386,7 +390,8 @@ class GridFeaturePermissionTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_add_feature_permission_success(self):
-        add_feature = Permission.objects.get(codename='add_feature')
+        add_feature = Permission.objects.get(codename='add_feature',
+                content_type__app_label='grid')
         self.user.user_permissions.add(add_feature)
         response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
@@ -396,7 +401,8 @@ class GridFeaturePermissionTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_edit_feature_permission_success(self):
-        edit_feature = Permission.objects.get(codename='change_feature')
+        edit_feature = Permission.objects.get(codename='change_feature',
+                content_type__app_label='grid')
         self.user.user_permissions.add(edit_feature)
         response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
@@ -406,7 +412,8 @@ class GridFeaturePermissionTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_delete_feature_permission_success(self):
-        delete_feature = Permission.objects.get(codename='delete_feature')
+        delete_feature = Permission.objects.get(codename='delete_feature',
+                content_type__app_label='grid')
         self.user.user_permissions.add(delete_feature)
         response = self.client.get(self.test_delete_url)
         self.assertEqual(response.status_code, 302)
@@ -427,7 +434,8 @@ class GridElementPermissionTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_edit_element_permission_success(self):
-        edit_element = Permission.objects.get(codename='change_element')
+        edit_element = Permission.objects.get(codename='change_element',
+                content_type__app_label='grid')
         self.user.user_permissions.add(edit_element)
         response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
