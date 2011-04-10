@@ -63,13 +63,15 @@ class Package(BaseModel):
     # not using migrations or to avoide possible data loss
     # pypi_url        = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='')
     # pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
+    # pypi_home_page  = models.URLField(_("homepage on PyPI for a project"), blank=True, null=True)
     related_packages    = models.ManyToManyField("self", blank=True)
     participants    = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
     usage           = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator")    
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier")
-    # pypi_home_page  = models.URLField(_("homepage on PyPI for a project"), blank=True, null=True)
+    # TODO: this field might be added to replace pypi_home_page
+    # home_page = models.URLField(_("Homepage for package"), blank=True, null=True)
     
     @property
     def last_updated(self):
