@@ -55,7 +55,7 @@ class SourceforgeHandler(BaseHandler):
 
         package.repo_description = data.get("description")
 
-        project_name = _name_from_pypi_home_page(package.pypi_home_page)
+        project_name = project.title
         # dejsonify the results
         try:
             sf_package_data = _get_project_data(project_name)
