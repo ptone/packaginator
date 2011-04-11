@@ -13,6 +13,12 @@ def uniquer(seq, idfun=None):
     return result
 
 
+def get_version(version_string):
+    try:
+        return StrictVersion(version_string)
+    except ValueError:
+        return LooseVersion(version_string)
+
 def compare_versions(version1, version2):
     try:
         return cmp(StrictVersion(version1), StrictVersion(version2))
