@@ -117,7 +117,7 @@ MIDDLEWARE_CLASSES = [
 ]
 
 TEMPLATE_DIRS = [
-    os.path.join(PYPACKAGE_ROOT, "template"),
+    os.path.join(PYPACKAGE_ROOT, "templates"),
     os.path.join(PROJECT_ROOT, "templates"),
     os.path.join(PINAX_ROOT, "templates", PINAX_THEME),
 ]
