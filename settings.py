@@ -5,9 +5,11 @@ import os.path
 import sys
 import posixpath
 import pinax
+import pypackage
 
 PINAX_ROOT = os.path.abspath(os.path.dirname(pinax.__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+PYPACKAGE_ROOT = os.path.abspath(os.path.dirname(pypackage.__file__))
 
 # tells Pinax to use the default theme
 PINAX_THEME = "default"
@@ -115,6 +117,7 @@ MIDDLEWARE_CLASSES = [
 ]
 
 TEMPLATE_DIRS = [
+    os.path.join(PYPACKAGE_ROOT, "template"),
     os.path.join(PROJECT_ROOT, "templates"),
     os.path.join(PINAX_ROOT, "templates", PINAX_THEME),
 ]
