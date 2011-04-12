@@ -28,7 +28,6 @@ function package_form(data){
 	};
 	
 	var repo_url = $("#id_repo_url");
-	var pypi_url = $("#id_pypi_url");
 	
 	String.prototype.starts_with = function(str){
 		return (this.indexOf(str) === 0);
@@ -40,13 +39,8 @@ function package_form(data){
 	
 	repo_url.focus();
 	
-	pypi_url_g = "http://pypi.python.org/pypi/";
 	
-	pypi_url.val(pypi_url.val().replace(pypi_url_g,""));
 	
-	pypi_url.change(function(e){
-		pypi_url.val(pypi_url.val().replace(pypi_url_g,""));
-	});
 	
 	repo_url.keyup(function(e) {
 		var url = repo_url.val();
@@ -104,16 +98,3 @@ function package_form(data){
 			};
 		});
 	});
-	
-	$("#package-form").submit(function(e) {
-		// hack to get around some database vs front end weirdness
-		var url = pypi_url.val();
-		if (url.length > 0){
-		  pypi_url.attr("name", "nuke");
-		  $("#temp").val(pypi_url_g + url);
-		  $("#temp").attr("name", "pypi_url");	 
-		};
-		
-		return true
-	});
-}
