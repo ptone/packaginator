@@ -154,6 +154,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
 PROJECT_APPS = [
     "about",
     "grid",
+    'core',
     "homepage",
     "package",
     "profiles",
@@ -203,6 +204,9 @@ PREREQ_APPS = [
 
     # Celery task queue:
     'djcelery',
+    
+    # Sentry error logging:
+    'sentry.client',
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
@@ -273,7 +277,7 @@ COVERAGE_MODULE_EXCLUDES += PREREQ_APPS + ["djkombu",]
 COVERAGE_REPORT_HTML_OUTPUT_DIR = "coverage"
 
 PACKAGINATOR_HELP_TEXT = {
-    "REPO_URL" : "Enter your project repo hosting URL here.<br />Example: https://bitbucket.com/ubernostrum/django-registration",
+    "REPO_URL" : "Enter your project repo hosting URL here.<br />Example: https://bitbucket.org/ubernostrum/django-registration",
     "PYPI_URL" : "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-registration",
     "CATEGORY" : """
     <ul>

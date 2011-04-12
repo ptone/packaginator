@@ -16,8 +16,11 @@ if settings.LAUNCHPAD_ACTIVE:
         found_bzrlib = False
         raise ImportError("Unable to import bzrlib - not able to run Bazaar" +\
             "repo tests, disable LAUNCHPAD_ACTIVE setting")
+
 #from package.repos.sourceforge import repo_handler as sourceforge_handler
 from package.models import Commit, Package, Category
+
+
 
 class BaseBase(TestCase):
     
