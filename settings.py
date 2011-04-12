@@ -192,9 +192,6 @@ PREREQ_APPS = [
     "pinax.apps.signup_codes",
     "pinax.apps.analytics",
 
-    # Celery task queue:
-    'djcelery',
-    
     # Sentry error logging:
     'sentry.client',
 ]
@@ -292,7 +289,6 @@ RESTRICT_GRID_EDITORS = False
 
 
 
-CELERYD_TASK_TIME_LIMIT = 300
 LAUNCHPAD_ACTIVE = False
 
 LOCAL_INSTALLED_APPS = []
@@ -312,11 +308,3 @@ SUPPORTED_REPO.extend(["bitbucket", "github"])
 if LAUNCHPAD_ACTIVE:
     SUPPORTED_REPO += ["launchpad"]
 
-try:
-    import djcelery
-
-    djcelery.setup_loader()
-except ImportError:
-    # skipping this so we can generate docs
-    # Doing this cause most development doesn't need it.
-    pass
