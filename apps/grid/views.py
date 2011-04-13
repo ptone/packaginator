@@ -14,6 +14,17 @@ from package.models import Package
 from package.forms import PackageForm
 from package.views import repo_data_for_js
 
+DEFAULT_GRID_ATTRIBUTES = [
+                ('repo_description', 'Description'),
+                ('category','Category'),
+                ('last_updated', 'Last Updated'),
+                ('repo', 'Repo'),
+                ('commits_over_52', 'Commits'),
+                ('repo_watchers', 'Repo watchers'),
+                ('repo_forks', 'Forks'),
+                ('participant_list', 'Participants')
+            ]
+
 def build_element_map(elements):
     # Horrifying two-level dict due to needing to use hash() function later
     element_map = {}
@@ -38,7 +49,7 @@ def grids(request, template_name="grid/grids.html"):
     )
 
 def grid_detail(request, slug, template_name="grid/grid_detail2.html",
-        additional_attributes=[]):
+        attributes=DEFAULT_GRID_ATTRIBUTES):
     """displays a grid in detail
 
     Template context:
@@ -60,24 +71,13 @@ def grid_detail(request, slug, template_name="grid/grid_detail2.html",
 
     element_map = build_element_map(elements)
 
-    default_attributes = [
-                ('repo_description', 'Description'),
-                ('category','Category'),
-                ('last_updated', 'Last Updated'),
-                ('repo', 'Repo'),
-                ('commits_over_52', 'Commits'),
-                ('repo_watchers', 'Repo watchers'),
-                ('repo_forks', 'Forks'),
-                ('participant_list', 'Participants')
-            ]
-    default_attributes.extend(additional_attributes)
 
     return render_to_response(
         template_name, {
             'grid': grid,
             'features': features,
             'grid_packages': grid_packages,
-            'attributes': default_attributes,
+            'attributes': attributes,
             'elements': element_map,
         }, context_instance = RequestContext(request)
     )
