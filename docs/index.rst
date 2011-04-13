@@ -24,7 +24,6 @@ Contents:
    introduction
    license   
    install
-   celery
    troubleshooting
    faq   
    packaginator_settings
