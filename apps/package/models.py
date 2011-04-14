@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.db import models
+from django.db import models, connection, transaction
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ObjectDoesNotExist
@@ -172,6 +172,37 @@ class Package(BaseModel):
 
     def fetch_commits(self):
         self.repo.fetch_commits(self)
+
+    def get_similar_by_usage(self):
+        """
+        returns a list of triples (max of 10): 
+            (package.id, package.slug, count)
+
+        These are the top 10 packages that users of this package also use,
+        sorted by the number of users who use said package
+        """
+
+        sql_query = """SELECT
+                        PACKAGE.id,
+                        PACKAGE.slug,
+                        count ( * ) AS count
+                     FROM package_package_usage usage
+                    INNER JOIN package_package package
+                       ON usage.package_id = package.id,
+                        /* related */
+                          package_package_usage u
+                    INNER JOIN package_package p
+                       ON U.PACKAGE_id = p.id
+                    WHERE usage.user_id = u.user_id
+                      AND p.id = %d
+                      AND package.id <> p.id
+                    GROUP BY package.id
+                    ORDER BY count DESC
+                    LIMIT 10;""" % self.id
+
+        cursor = connection.cursor()
+        cursor.execute(sql_query)
+        return cursor.fetchall()
 
     class Meta:
         ordering = ['title']
