@@ -50,7 +50,7 @@
                 {% with package.get_similar_by_usage as similar_items %}
                 {% if similar_items %}
                 <tr>
-                    <th>{% trans "Similar Packages" %}</th>
+                    <th>{% trans "Users of this also use:" %}</th>
                     <th>{% trans "# of users of this package who use" %}</th>
                 </tr>
                 {% for p_id, p_slug, p_count in similar_items %}
