@@ -53,9 +53,9 @@
                     <th>{% trans "Users of this also use:" %}</th>
                     <th>{% trans "# of users of this package who use" %}</th>
                 </tr>
-                {% for p_id, p_slug, p_count in similar_items %}
+                {% for p_id, p_slug, p_title, p_count in similar_items %}
                     <tr>
-                        <td>{{p_slug}}</td>
+                        <td><a href={% url package p_slug %}>{{p_title}}</a></td>
                         <td>{{p_count}}</td>
                     </tr>
                     {% endfor %}

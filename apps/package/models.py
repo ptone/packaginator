@@ -175,8 +175,8 @@ class Package(BaseModel):
 
     def get_similar_by_usage(self):
         """
-        returns a list of triples (max of 10): 
-            (package.id, package.slug, count)
+        returns a list of 4-tuples (max of 10):
+            (package.id, package.slug, package.title, count)
 
         These are the top 10 packages that users of this package also use,
         sorted by the number of users who use said package
@@ -185,6 +185,7 @@ class Package(BaseModel):
         sql_query = """SELECT
                         PACKAGE.id,
                         PACKAGE.slug,
+                        PACKAGE.title,
                         count ( * ) AS count
                      FROM package_package_usage usage
                     INNER JOIN package_package package
