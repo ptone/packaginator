@@ -197,7 +197,7 @@ class Package(BaseModel):
                     WHERE usage.user_id = u.user_id
                       AND p.id = %d
                       AND package.id <> p.id
-                    GROUP BY package.id
+                    GROUP BY 1, 2, 3
                     ORDER BY count DESC
                     LIMIT 10;""" % self.id
 
