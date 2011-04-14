@@ -47,6 +47,20 @@
                     </td>
                     <td id="fetch-cell"><a class="awesome forestgreen" href="{% url fetch_package_data package.slug %}">{% trans "Fetch latest data" %}</a></td>
                 </tr>    
+                {% with package.get_similar_by_usage as similar_items %}
+                {% if similar_items %}
+                <tr>
+                    <th>{% trans "Similar Packages" %}</th>
+                    <th>{% trans "# of users of this package who use" %}</th>
+                </tr>
+                {% for p_id, p_slug, p_count in similar_items %}
+                    <tr>
+                        <td>{{p_slug}}</td>
+                        <td>{{p_count}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
             </tbody>        
          </table>
 
