@@ -53,6 +53,9 @@ def commits_over_52(package):
 
     return ','.join(map(str,reversed(weeks)))
 
+@register.filter
+def percent_display(value, arg):
+    return "%s%%" % int(100 * (float(value) / float(arg)))
 
 @register.inclusion_tag('package/templatetags/_usage_button.html', takes_context=True)
 def usage_button(context):

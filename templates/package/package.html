@@ -51,12 +51,12 @@
                 {% if similar_items %}
                 <tr>
                     <th>{% trans "Users of this also use:" %}</th>
-                    <th>{% trans "# of users of this package who use" %}</th>
+                    <th>{% trans "% of users of this package who use" %}</th>
                 </tr>
                 {% for p_id, p_slug, p_title, p_count in similar_items %}
                     <tr>
                         <td><a href={% url package p_slug %}>{{p_title}}</a></td>
-                        <td>{{p_count}}</td>
+                        <td>{{p_count|percent_display:package.usage.count}}</td>
                     </tr>
                     {% endfor %}
                     {% endif %}
